@@ -1,6 +1,6 @@
 # Zentriflex Test Task
 
-This repository was created for a test job at Zentriflex for a Trainee/Junior Back-End Developer position.
+This repository was created for a test job for a Trainee/Junior Back-End Developer position.
 
 ## System Requirements Specification (SRS)
 
