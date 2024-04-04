@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import * as argon2 from 'argon2';
+import * as crypto from 'crypto';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ConfigService } from '@nestjs/config';
@@ -36,7 +37,7 @@ export class AuthService {
         const accessToken = await this.generateAccessToken(user);
         const refreshToken = await this.createToken(
             user.id,
-            await this.generateRefreshToken(user),
+            await this.generateRefreshToken(),
             this.configSerivce.get<number>('JWT_REFRESH_TOKEN_EXP'),
         );
 
@@ -63,13 +64,13 @@ export class AuthService {
         if (user.token) {
             refreshToken = await this.updateToken(
                 user.id,
-                await this.generateRefreshToken(user),
+                await this.generateRefreshToken(),
                 this.configSerivce.get<number>('JWT_REFRESH_TOKEN_EXP'),
             );
         } else {
             refreshToken = await this.createToken(
                 user.id,
-                await this.generateRefreshToken(user),
+                await this.generateRefreshToken(),
                 this.configSerivce.get<number>('JWT_REFRESH_TOKEN_EXP'),
             );
         }
@@ -109,7 +110,7 @@ export class AuthService {
         const accessToken = await this.generateAccessToken(user);
         const refreshToken = await this.updateToken(
             user.id,
-            await this.generateRefreshToken(user),
+            await this.generateRefreshToken(),
             this.configSerivce.get<number>('JWT_REFRESH_TOKEN_EXP'),
         );
 
@@ -130,11 +131,9 @@ export class AuthService {
         return await this.jwtService.signAsync({ sub: user.id, email: user.email });
     }
 
-    private async generateRefreshToken(user: User): Promise<string> {
-        return await this.jwtService.signAsync(
-            { sub: user.id, email: user.email },
-            { expiresIn: this.configSerivce.get<string>('JWT_REFRESH_TOKEN_EXP') },
-        );
+    private async generateRefreshToken(size: number = 50): Promise<string> {
+        const buffer = crypto.randomBytes(size * 2);
+        return await argon2.hash(buffer.toString('hex'));
     }
 
     private async createToken(userId: number, token: string, lifeTime: number): Promise<Token> {
