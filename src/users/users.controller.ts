@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Patch, UseGuards, Request, Body, HttpCode } from '@nestjs/common';
+import { Controller, Delete, Get, Patch, UseGuards, Request, Body, HttpCode, NotFoundException } from '@nestjs/common';
 import { AccessTokenGuard } from 'src/auth/guards/at.guard';
 import { UsersService } from './users.service';
 import { UserChangePasswordDto, UserDto, UserUpdateDto } from './dto';
@@ -25,12 +25,16 @@ export class UsersController {
     @ApiResponse({ status: 204, description: 'The user account was successfully deleted' })
     @ApiResponse({ status: 401, description: 'User is not authorized' })
     async deleteUserProfile(@Request() req) {
-        await this.usersService.delete(req.user.id);
+        try {
+            await this.usersService.delete(req.user.id);
+        } catch (ex) {
+            throw new NotFoundException('User is not found');
+        }
     }
 
     @Patch('profile')
-    @HttpCode(204)
-    @ApiResponse({ status: 204, description: 'User account data has been updated', type: UserDto })
+    @HttpCode(200)
+    @ApiResponse({ status: 200, description: 'User account data has been updated', type: UserDto })
     @ApiResponse({ status: 401, description: 'User is not authorized' })
     async updateUserProfile(@Request() req, @Body() dto: UserUpdateDto) {
         const { token, createdAt, updatedAt, ...result } = await this.usersService.update(req.user.id, dto);
@@ -38,9 +42,9 @@ export class UsersController {
     }
 
     @Patch('profile/change-password')
-    @HttpCode(204)
+    @HttpCode(200)
     @ApiBody({ type: UserChangePasswordDto })
-    @ApiResponse({ status: 204, description: 'User has been updated', type: UserDto })
+    @ApiResponse({ status: 200, description: 'User has been updated', type: UserDto })
     @ApiResponse({ status: 401, description: 'User is not authorized' })
     async changePasswordUserProfiole(@Request() req, @Body() dto: UserChangePasswordDto) {
         const { token, createdAt, updatedAt, ...result } = await this.usersService.changePassword(req.user.id, dto);
