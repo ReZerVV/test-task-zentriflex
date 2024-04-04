@@ -1,73 +1,81 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Zentriflex Test Task
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This repository was created for a test job at Zentriflex for a Trainee/Junior Back-End Developer position.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## System Requirements Specification (SRS)
 
-## Description
+The project is an API for registration and login system as well as management of user's personal profile.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+1. User must be able to register in the system using e-mail and password.
+2. User must be able to log in using email and password.
+3. JWT tokens must be used for authorization and authentication.
+4. User must be able to refresh the access token using the refresh token.
+5. User must be able to terminate the current session.
+6. User should be able to delete their profile from the system.
+7. User should be able to get information about their profile.
+8. User must be able to change the password for their account.
+9. User should be able to change the contact details of their profile.
 
-## Installation
+## Technology Stack
 
-```bash
-$ yarn install
+The following technology stack was used in the project:
+
+-   `Node.js, JavaScript, TypeScript, Nest.js` - Platform for system development.
+-   `Prisma ORM, PostgreSQL` - To work with the database.
+-   `Passport.js, argon2, crypto` - To implement authorization and authentication using JWT tokens.
+-   `Swagger` - For the OpenAPi implementation.
+
+## Docs
+
+### OpenApi
+
+<img src="./assets/images/swagger.png" alt="swagger capture"/>
+
+OpenApi documentation has been added to the project. The documentation is implemented using Swagger. The path where the documentation is available is below.
+
+```js
+{{base_url}}/api
 ```
 
-## Running the app
+## Quick Start
 
-```bash
+### Installation
+
+```shell
+yarn install
+```
+
+### Config
+
+Create an `.env` file in the root of the project and fill it with the required parameters.
+
+```
+# Port on which the application runs
+# if no port is specified the application runs on port 5050
+PORT=
+
+# Database connection string
+DATABASE_URL=
+
+# Configuration of JWT Access and Refresh Token Settings.
+# The parameters JWT_ACCESS_TOKEN_EXP and JWT_REFRESH_TOKEN_EXP
+# take values in minutes
+JWT_SECRET_KEY=
+JWT_TOKEN_AUDIENCE=
+JWT_TOKEN_ISSUER=
+JWT_ACCESS_TOKEN_EXP=
+JWT_REFRESH_TOKEN_EXP=
+```
+
+### Running the app
+
+```shell
 # development
-$ yarn run start
+yarn run start
 
 # watch mode
-$ yarn run start:dev
+yarn run start:dev
 
 # production mode
-$ yarn run start:prod
+yarn run start:prod
 ```
-
-## Test
-
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
